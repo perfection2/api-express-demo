@@ -10,6 +10,7 @@ import { IExceptionFilter } from './errors/exception.filter.interface';
 import { UserController } from './users/users.controller';
 import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './common/auth.middleware';
+import { TicketController } from './tickets/ticket.controller';
 
 @injectable()
 export class App {
@@ -22,6 +23,7 @@ export class App {
 		@inject(TYPES.ILogger) private logger: ILogger,
 		// все контролллеры с методами api
 		@inject(TYPES.UserController) private userController: UserController,
+		@inject(TYPES.TicketController) private ticketController: TicketController,
 		@inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
@@ -39,6 +41,7 @@ export class App {
 	/* Методы с роутами для каждого контроллера */
 	useRoutes(): void {
 		this.app.use('/users', this.userController.router);
+		this.app.use('/tickets', this.ticketController.router);
 	}
 
 	/* Фильтры для ошибок */
